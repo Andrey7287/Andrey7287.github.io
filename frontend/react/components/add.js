@@ -61,7 +61,7 @@ export default class extends React.Component {
 							<button type="submit"
 											className="btn btn-default"
 											onClick={this.handlerBtn}>
-							Submit</button>
+							Add task</button>
 						</div>
 					</div>
 				</form>

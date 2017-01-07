@@ -9,9 +9,11 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = {
 
 	entry: {
-		main: ['webpack-dev-server/client?http://localhost:8080/',
-					 'webpack/hot/dev-server',
-					 './frontend/main']
+		main: NODE_ENV == 'development' ?
+			['webpack-dev-server/client?http://localhost:8080/',
+			 'webpack/hot/dev-server',
+			 './frontend/main'] :
+			'./frontend/main'
 	},
 
 	output: {
@@ -33,8 +35,7 @@ module.exports = {
 		}),
 		new ExtractTextPlugin("../[name].css", {
 			allChunks: true
-		}),
-		new webpack.HotModuleReplacementPlugin()
+		})
 	],
 
 	module: {
@@ -71,7 +72,12 @@ module.exports = {
 
 };
 
-if ( NODE_ENV == 'production' ) {
+if ( NODE_ENV == 'development' ){
+	module.exports.plugins.push(
+		new webpack.HotModuleReplacementPlugin()
+	);
+}
+if ( NODE_ENV == 'production' ){
 	module.exports.plugins.push(
 		new webpack.optimize.UglifyJsPlugin({
 			compress: {
